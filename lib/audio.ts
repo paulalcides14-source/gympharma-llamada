@@ -1,6 +1,6 @@
 export const playTone = (freq: number, type: OscillatorType, duration: number, vol = 0.1) => {
   try {
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    const AudioContext = window.AudioContext || (window as Window & { webkitAudioContext?: typeof window.AudioContext }).webkitAudioContext;
     if (!AudioContext) return;
     const ctx = new AudioContext();
     const osc = ctx.createOscillator();
@@ -17,7 +17,7 @@ export const playTone = (freq: number, type: OscillatorType, duration: number, v
     
     osc.start();
     osc.stop(ctx.currentTime + duration);
-  } catch (e) {
+  } catch (_e) {
     // Ignore context errors
   }
 };
